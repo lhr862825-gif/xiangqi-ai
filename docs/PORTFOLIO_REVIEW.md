@@ -18,7 +18,7 @@ There is no universal checklist that makes a project acceptable to every oversea
 - Replaced Chinese and stale comments with accurate English comments.
 - Rewrote the README in English with setup, architecture, AI tradeoffs, test commands and limitations.
 - Added package.json with reproducible syntax-check and test commands.
-- Added a GitHub Actions workflow for the same checks. A successful hosted run is not claimed until it is observed.
+- Added a GitHub Actions workflow for the same checks. The first hosted run completed successfully: https://github.com/lhr862825-gif/xiangqi-ai/actions/runs/38320791036.
 - Preserved Chinese/English language switching and existing rules.
 
 ## Remaining gaps

@@ -56,7 +56,7 @@ npm test
 
 The suite currently contains 28 tests covering 14 rule regressions, exact undo restoration, clone isolation, legal AI moves for both colors, controlled terminal positions, cancellation, event-loop yielding, DPR setup, scaled clicks, mode behavior and localization.
 
-GitHub Actions is configured to run syntax checks and tests on pushes and pull requests. Local tests have passed; this configuration's hosted run has not yet been verified.
+GitHub Actions is configured to run syntax checks and tests on pushes and pull requests. Local tests have passed, and the first [GitHub Actions run](https://github.com/lhr862825-gif/xiangqi-ai/actions/runs/38320791036) completed successfully.
 
 Manual browser checks: test both modes, all difficulty levels, both languages, keyboard navigation, the rules dialog, undo/restart during AI thinking, and a high-DPI/mobile viewport. Automated UI tests use DOM/Canvas stubs; they do not validate actual browser layout or visual smoothness.
 
