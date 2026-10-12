@@ -1,0 +1,352 @@
+/*
+ * 全局 CSS 变量与主题：
+ * - wood-brown：木纹主题主色（棋盘边框）
+ * - text-primary / text-secondary：主/次文本颜色
+ * - accent-red / accent-green：强调色（提示与按钮）
+ * - card-bg / chip-bg：卡片与状态标签背景（半透明）
+ * - border：统一的半透明描边
+ * - shadow-strong / shadow-soft：强/弱阴影
+ * - radius：统一圆角半径
+ */
+:root {
+    --wood-brown: #8b4513;
+    --text-primary: #2c3e50;
+    --text-secondary: #5f6d7a;
+    --accent-red: #c62828;
+    --accent-green: #2e7d32;
+    --card-bg: rgba(255, 255, 255, 0.65);
+    --chip-bg: rgba(255, 255, 255, 0.8);
+    --border: rgba(255, 255, 255, 0.45);
+    --shadow-strong: 0 20px 40px rgba(0,0,0,0.25);
+    --shadow-soft: 0 10px 24px rgba(0,0,0,0.18);
+    --radius: 18px;
+    --glass-blur: 8px;
+    --lift-shadow: 0 16px 36px rgba(0,0,0,0.28);
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'KaiTi', '楷体', Arial, sans-serif;
+    margin: 0;
+    padding: 24px;
+    background-image: url("images/wood-texture.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 页面主容器：居中排版与毛玻璃卡片底 */
+.page-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    justify-content: center;
+    padding: 28px;
+    box-sizing: border-box;
+    max-width: 1180px;
+    width: 100%;
+    border-radius: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(var(--glass-blur));
+    box-shadow: var(--shadow-strong);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* 2. 左列容器：控制 game-container（上）和 controls（下）的“上-下”布局 */
+/* 左列：垂直栈布局，放标题与状态、控制区 */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 320px;
+}
+
+/* 3. 左列上部：game-container */
+/* 左列上部卡片：标题与状态信息 */
+.game-container {
+    width: 100%;
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border);
+    box-sizing: border-box;
+}
+
+/* 控制区：按钮栈与对齐 */
+.controls {
+    display: flex;
+    gap: 14px; 
+    justify-content: center;
+    padding: 0 10px;
+}
+
+/* 右侧主区域：棋盘外层容器 */
+.main-layout {
+    width: 600px;
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;
+}
+
+/* 棋盘卡片容器：白玻璃、圆角与阴影 */
+.board-card {
+    width: 100%;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 14px;
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* 6. 棋盘样式（适配右列） */
+/* 棋盘画布：木纹背景与边框 */
+#chess-board {
+    border: 3px solid var(--wood-brown);
+    border-radius: 16px;
+    background-image: url("images/wood-texture-chessboard.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    background-color: #f5e8c8;
+    transition: box-shadow 0.25s ease;
+}
+
+/* 标题样式：加粗、阴影与字距 */
+h1 {
+    color: var(--text-primary);
+    margin-bottom: 22px;
+    font-size: 2.4em;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+/* 状态信息条：当前行棋方与将军提示 */
+.game-info {
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.5);
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    gap: 12px;
+}
+
+/* 当前行棋方标签：红/黑配色自动切换 */
+#current-turn {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--accent-red);
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#current-turn::before {
+    content: '♟︎';
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+/* 局面状态标签：被将军提示 */
+#game-status {
+    font-size: 1.05em;
+    color: var(--accent-green);
+    font-weight: 700;
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#game-status::before {
+    content: '⚑';
+    font-size: 1.05em;
+    opacity: 0.8;
+}
+
+
+
+.board-and-controls {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.controls {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin: 22px auto;
+    max-width: 600px;
+}
+
+/* 通用按钮样式：圆角、阴影与过渡 */
+button {
+    padding: 12px 22px;
+    font-size: 1.05em;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    text-transform: none;
+    font-family: 'Microsoft YaHei', 'KaiTi', sans-serif;
+    letter-spacing: 0.3px;
+    background: rgba(255,255,255,0.9);
+    color: var(--text-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+button:active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
+
+button:focus {
+    outline: none;
+}
+button:focus-visible {
+    box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.35), 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+button:disabled {
+    background: linear-gradient(45deg, #bdc3c7, #95a5a6);
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    button {
+        padding: 12px 20px;
+        font-size: 1em;
+        letter-spacing: 0.2px;
+    }
+}
+
+/* 新游戏按钮：柔和木色渐变，更贴合整体配色 */
+#new-game {
+    background: linear-gradient(180deg, #f9f5ee, #efe2cf);
+    color: var(--wood-brown);
+}
+
+#new-game::before {
+    content: '♻️';
+}
+
+#new-game:hover {
+    background: linear-gradient(180deg, #efe2cf, #e3d3b8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 69, 19, 0.22);
+}
+
+/* 悔棋按钮：浅玫瑰中性色调，更协调不过分抢眼 */
+#undo-move {
+    background: linear-gradient(180deg, #f7eeef, #efd9dc);
+    color: var(--text-primary);
+}
+
+#undo-move::before {
+    content: '↩️';
+}
+
+#undo-move:hover {
+    background: linear-gradient(180deg, #efd9dc, #e6c5ca);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(198, 40, 40, 0.18);
+}
+
+
+
+
+
+@media (max-width: 900px) {
+    .page-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        padding: 22px;
+    }
+    .main-layout {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .game-container {
+        padding: 16px;
+        margin: 8px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #chess-board {
+        width: 100%;
+        max-width: 420px;
+        height: auto;
+    }
+}
+/* Logical canvas dimensions remain independent of DPR backing storage. */
+#chess-board { width: 600px; max-width: 100%; height: auto; display: block; }
+.board-card { box-sizing: border-box; }
+.left-column { max-width: 100%; flex-shrink: 0; }
+.settings { display: grid; gap: 10px; padding: 18px; background: var(--card-bg); border-radius: var(--radius); }
+.settings select { padding: 10px; border: 1px solid #bca88c; border-radius: 8px; font: inherit; background: #fffaf0; }
+#ai-status { min-height: 1.5em; color: var(--text-secondary); font-size: .9em; }
+body.high-contrast { background: #fff; }
+body.high-contrast .page-wrapper, body.high-contrast .game-container, body.high-contrast .settings { background: #fff; color: #000; border: 2px solid #000; }
+@media (max-width: 600px) { body {padding: 10px;} .page-wrapper {padding: 12px;} .board-card {padding: 6px;} }
+
+/* Rules dialog */
+.rules-entry { align-self: center; margin-top: -10px; font-size: .95em; box-shadow: none; background: rgba(255,250,240,.85); color: var(--wood-brown); }
+#rules-dialog { width: min(540px, calc(100vw - 64px)); max-height: 80vh; overflow-y: auto; padding: 24px; border: 1px solid #cbb895; border-radius: 18px; background: #fffaf0; color: var(--text-primary); box-shadow: var(--shadow-strong); line-height: 1.65; }
+#rules-dialog::backdrop { background: rgba(32,24,16,.5); }
+.rules-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.rules-header h2 { margin: 0; color: var(--wood-brown); font-size: 1.5em; }
+.rules-close { padding: 4px 12px; font-size: 1.4em; box-shadow: none; }
+#rules-dialog h3 { margin: 20px 0 8px; font-size: 1.05em; color: var(--wood-brown); }
+#rules-dialog p { margin: 12px 0; }
+.rules-list { padding-left: 22px; margin: 8px 0; }
+.rules-list li { margin: 7px 0; }
+.rules-tip { color: var(--text-secondary); font-size: .9em; }
+
+/* Keep longer English labels readable on narrow screens. */
+.settings select { width: 100%; min-width: 0; box-sizing: border-box; }
+.game-info { flex-wrap: wrap; justify-content: center; }
+.controls { flex-wrap: wrap; }
+html[lang="en"] h1 { font-size: 1.8em; line-height: 1.2; }
+html[lang="en"] #current-turn, html[lang="en"] #game-status { font-size: .95em; }

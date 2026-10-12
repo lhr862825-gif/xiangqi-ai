@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国象棋</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 页面主容器：左侧信息、右侧棋盘布局 -->
+    <div class="page-wrapper">
+        <!-- 左侧信息栏：标题与当前状态 -->
+        <div class="left-column">
+            <div class="game-container">
+                <h1 data-i18n="title">中国象棋</h1>
+                <div class="game-info">
+                    <div id="current-turn">红方走棋</div>
+                    <div id="game-status"></div>
+                </div>
+            </div>
+
+            <div class="settings">
+                <label for="language" data-i18n="language">语言 / Language</label>
+                <select id="language"><option value="zh">中文</option><option value="en">English</option></select>
+                <label for="game-mode" data-i18n="mode">模式</label>
+                <select id="game-mode"><option value="ai-red" selected data-i18n="aiMode">人机（你执红 · AI 执黑）</option><option value="pvp" data-i18n="pvpMode">双人对弈</option></select>
+                <label for="difficulty" data-i18n="difficulty">难度</label>
+                <select id="difficulty"><option value="easy" data-i18n="easy">简单</option><option value="medium" selected data-i18n="medium">中等</option><option value="hard" data-i18n="hard">困难</option></select>
+                <div id="ai-status" aria-live="polite"></div>
+            </div>
+            <!-- 控制区：新游戏与悔棋按钮 -->
+            <div class="controls">
+                <button id="new-game" data-i18n="newGame">新游戏</button>
+                <button id="undo-move" data-i18n="undo">悔棋</button>
+            </div>
+            <button id="show-rules" class="rules-entry" aria-haspopup="dialog" data-i18n="rules">玩法说明</button>
+        </div>
+
+        <!-- 右侧棋盘区 -->
+        <div class="main-layout">
+            <!-- 棋盘卡片容器：承载画布并提供阴影与圆角 -->
+            <div class="board-card">
+                <!-- 棋盘画布：主交互区域 -->
+                <canvas data-i18n-aria="boardLabel" aria-label="中国象棋棋盘" id="chess-board" width="600" height="680"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="rules-dialog" aria-labelledby="rules-title">
+        <div class="rules-header">
+            <h2 id="rules-title" data-i18n="rules">玩法说明</h2>
+            <form method="dialog"><button class="rules-close" data-i18n-aria="closeRules" aria-label="关闭玩法说明">×</button></form>
+        </div>
+        <p data-i18n="intro">红方先走，双方轮流走一着。点击己方棋子，再点击提示位置即可移动或吃子。</p>
+        <h3 data-i18n="pieceHeading">棋子怎么走</h3>
+        <ul class="rules-list">
+            <li data-i18n="rook">车：横着或竖着走，步数不限，不能越过棋子。</li>
+            <li data-i18n="horse">马：走“日”字；前进方向紧邻的格点有子挡住时，不能走（蹩马腿）。</li>
+            <li data-i18n="elephant">相 / 象：走“田”字，不能过河；中间有棋子时不能走（塞象眼）。</li>
+            <li data-i18n="advisor">仕 / 士：在九宫内斜走一步。</li>
+            <li data-i18n="general">帅 / 将：在九宫内横走或竖走一步；双方将帅不能在同一列无子阻隔地面对面。</li>
+            <li data-i18n="cannon">炮：移动时与车相同；吃子时必须隔着恰好一枚棋子。</li>
+            <li data-i18n="soldier">兵 / 卒：过河前只能向前一步，过河后也能横走一步，始终不能后退。</li>
+        </ul>
+        <h3 data-i18n="winningHeading">怎样获胜</h3>
+        <p data-i18n="winning">将帅受到攻击称为“将军”，必须应对；不能走出让己方将帅被攻击的一着。被将军且无合法走法为“将死”，没有任何合法走法为“困毙”，两种情况都判负。</p>
+        <h3 data-i18n="controlsHeading">模式与操作</h3>
+        <p data-i18n="controlsText">双人模式双方轮流操作；人机模式你执红、AI 执黑，可选择难度。双人悔棋撤回一着，人机悔棋回到你可重走的回合。“新游戏”重新开局。</p>
+        <p class="rules-tip" data-i18n="keys">键盘：方向键移动光标，回车或空格选子与落子。按 Esc 或右上角 × 关闭说明。</p>
+    </dialog>
+
+    <!-- 业务逻辑脚本：棋盘绘制、规则判断、交互与状态 -->
+    <script src="engine.js"></script>
+    <script src="ai.js"></script>
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
