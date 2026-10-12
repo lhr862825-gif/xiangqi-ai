@@ -1,38 +1,74 @@
-# 中国象棋
+# Xiangqi AI
 
-直接用浏览器打开 index.html，无需安装依赖或启动服务。
+A bilingual Chinese chess game built with vanilla JavaScript and Canvas. Play locally against another person or a time-limited AI opponent, with no server, build step or runtime dependencies.
 
-## 功能
+## Run locally
 
-- 中文 / English 随时切换；首次按浏览器语言选择，后续记住玩家偏好，切换不重置棋局。
-- 支持双人对弈；人机模式固定玩家执红、AI 执黑，简单、中等、困难三档难度。
-- 点击棋子选中，再点击合法落点；也可用方向键和回车/空格操作。
-- 双人模式每次悔棋撤销一手；人机模式恢复到玩家可重走的回合。
-- AI 思考或动画期间锁定落子；新游戏、悔棋会取消旧任务。
-- H 切换页面高对比样式，+ / - 调整页面字体。
+Clone this repository and open index.html in a modern browser. Select English or Chinese from the language menu. The first visit follows your browser language; later visits remember your selection when browser storage is available.
 
-## 结构
+## Features
 
-- engine.js：XiangqiGame 纯状态与规则，支持合法走法、make/unmake、克隆和结构化胜负判断。
-- ai.js：XiangqiAI，negamax、Alpha-Beta、MVV-LVA、位置表、迭代加深。
-- i18n.js：中英界面、状态和玩法说明翻译及语言偏好。
-- script.js：Canvas UI、DPR 静态层与棋子精灵、动画和 AI 集成。
+- Two-player mode and human-versus-AI mode (human: Red, AI: Black).
+- Easy, Medium and Hard AI settings with iterative deepening and time budgets.
+- Legal destination hints, check notifications, checkmate and stalemate detection.
+- Continuous undo in two-player mode; undo to the human's turn against the AI.
+- Cancelable AI searches and animations when restarting, undoing or changing modes.
+- Pre-rendered piece sprites and a cached static board with device-pixel-ratio support.
+- English and Chinese controls, status messages and beginner instructions.
+- Mouse and keyboard controls. Arrow keys move the cursor; Enter or Space selects or moves a piece. H toggles page contrast; + and - adjust page text size.
 
-引擎走法格式为 {from: {row, col}, to: {row, col}}；行 0 为黑方底线，行 9 为红方底线。
-正常局面 reason 为 null；终局 reason 为 checkmate / stalemate / captured。
+## Architecture
 
-AI 在搜索内部定期用 setTimeout(0) 让出主线程。简单最多深度 2，中等最多 4，困难最多 6；时间预算分别约 0.5 / 1 / 1.5 秒。到时返回上一完整深度的结果，深度 1 尚未完成时返回合法备用着，实际深度取决于设备和局面。搜索过程中重复局面评分为 0；引擎尚未包含正式重复局面、长将或和棋裁定，不保证完整自对弈必然结束。
+| File | Responsibility |
+| --- | --- |
+| engine.js | DOM-independent board state, rules, legal move generation, undo, cloning and game-state evaluation |
+| ai.js | Negamax search, Alpha-Beta pruning, MVV-LVA move ordering and positional evaluation |
+| script.js | Canvas rendering, sprite cache, input handling, animations and AI lifecycle |
+| i18n.js | Translation dictionary, language switching and preference persistence |
+| tests/ | Engine regressions, AI smoke tests, localization and stubbed UI lifecycle tests |
 
-## 验证
+The UI owns a XiangqiGame instance. AI search clones it, applies and undoes candidate moves, and returns a move without mutating the live game. A generation counter and AbortController discard obsolete results after user actions.
 
-运行：
+Board coordinates use rows 0-9 and columns 0-8. Black's home rank is row 0; Red's is row 9. Moves have this shape:
 
-    node --check engine.js
-    node --check ai.js
-    node --check i18n.js
-    node --check script.js
-    node --test tests/engine-ai.test.js tests/ui.test.js tests/i18n.test.js
+~~~js
+{ from: { row: 6, col: 0 }, to: { row: 5, col: 0 } }
+~~~
 
-测试覆盖 14 项规则回归、连续悔棋、克隆、AI 双方合法落子、可控残局终局、搜索取消、事件循环让出，以及 DOM/Canvas 桩下的 DPR、缩放点击、动画取消、人机悔棋和胜负显示。
+Game-state evaluation returns status (playing, red_wins or black_wins), reason (checkmate, stalemate, captured or null) and inCheck. Stalemate is a loss in Xiangqi.
 
-浏览器手工验收：打开页面，选困难难度，检查走棋动画、思考状态、悔棋与重开。真实浏览器画面和高分屏观感仍需实机确认。
+## AI design and tradeoffs
+
+Search uses iterative deepening: Easy attempts depth 2 with a 0.5-second budget, Medium depth 4 with 1 second, and Hard depth 6 with 1.5 seconds. The achieved depth depends on hardware and position complexity. An unfinished iteration is discarded; if no iteration completes, the AI returns a legal fallback move.
+
+Evaluation combines material values, mirrored piece-square tables and a crossed-river soldier bonus. Easy mode introduces variation among close-scoring root candidates. Repeated positions within a search path score zero.
+
+Search periodically yields through setTimeout(0), including within an iteration, to let the main thread handle UI work. This keeps file-based launch simple, at the cost of main-thread search overhead. A Web Worker is a possible future improvement.
+
+## Validation
+
+Node.js 20 or later is required only for development checks. No npm install is needed.
+
+~~~sh
+npm run check
+npm test
+~~~
+
+The suite currently contains 28 tests covering 14 rule regressions, exact undo restoration, clone isolation, legal AI moves for both colors, controlled terminal positions, cancellation, event-loop yielding, DPR setup, scaled clicks, mode behavior and localization.
+
+GitHub Actions is configured to run syntax checks and tests on pushes and pull requests. Local tests have passed; this configuration's hosted run has not yet been verified.
+
+Manual browser checks: test both modes, all difficulty levels, both languages, keyboard navigation, the rules dialog, undo/restart during AI thinking, and a high-DPI/mobile viewport. Automated UI tests use DOM/Canvas stubs; they do not validate actual browser layout or visual smoothness.
+
+## Current limitations
+
+- No official repetition, perpetual-check or draw adjudication. Full self-play is not guaranteed to terminate.
+- No quiescence search or transposition table; the AI is a portfolio implementation, not a competitive engine.
+- Canvas pieces retain traditional Chinese glyphs; the English instructions explain the corresponding names.
+- Screen-reader board interaction and real-browser visual verification remain incomplete.
+- No hosted demo is configured in this repository yet.
+- The source and redistribution terms of the two existing texture images have not been documented. See images/ASSETS.md.
+
+## Project review
+
+See docs/PORTFOLIO_REVIEW.md for the repository audit, verified evidence and remaining presentation work. This project demonstrates frontend state management, game rules, search algorithms, rendering optimization, localization and testing; it does not imply professional production experience or measured recruiter outcomes.

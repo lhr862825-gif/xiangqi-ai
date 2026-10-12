@@ -1,0 +1,17 @@
+{
+  "name": "xiangqi-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A bilingual browser-based Xiangqi game with a pure rules engine and time-limited local AI.",
+  "scripts": {
+    "check": "node --check engine.js && node --check ai.js && node --check i18n.js && node --check script.js",
+    "test": "node --test tests/engine-ai.test.js tests/ui.test.js tests/i18n.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lhr862825-gif/xiangqi-ai.git"
+  }
+}

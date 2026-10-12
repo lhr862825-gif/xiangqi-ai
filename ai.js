@@ -1,15 +1,15 @@
 class XiangqiAI {
-    static values = {'車':900, '炮':450, '馬':400, '象':200, '相':200, '士':200, '仕':200, '兵':100, '卒':100, '將':10000, '帥':10000};
+    static values = {'\u8eca':900, '\u70ae':450, '\u99ac':400, '\u8c61':200, '\u76f8':200, '\u58eb':200, '\u4ed5':200, '\u5175':100, '\u5352':100, '\u5c07':10000, '\u5e25':10000};
     // Tables use red's orientation; black reads the mirrored row.
     static tables = Object.fromEntries(Object.keys(XiangqiAI.values).map(piece => [piece,
         Array.from({length:10}, (_, row) => Array.from({length:9}, (_, col) => {
             const center = 4 - Math.abs(4-col), advance = 9-row;
-            if ('兵卒'.includes(piece)) return advance*8 + center*5;
-            if (piece === '馬') return center*12 + Math.min(row,9-row)*8;
-            if (piece === '車') return center*5 + advance*3;
-            if (piece === '炮') return center*8 + Math.min(row,9-row)*4;
-            if ('相象'.includes(piece)) return center*4 + (row >= 5 ? 8 : 0);
-            if ('仕士'.includes(piece)) return col === 4 ? 12 : 4;
+            if ('\u5175\u5352'.includes(piece)) return advance*8 + center*5;
+            if (piece === '\u99ac') return center*12 + Math.min(row,9-row)*8;
+            if (piece === '\u8eca') return center*5 + advance*3;
+            if (piece === '\u70ae') return center*8 + Math.min(row,9-row)*4;
+            if ('\u76f8\u8c61'.includes(piece)) return center*4 + (row >= 5 ? 8 : 0);
+            if ('\u4ed5\u58eb'.includes(piece)) return col === 4 ? 12 : 4;
             return row >= 7 ? (col === 4 ? 8 : 0) : -30;
         }))]));
     evaluate(game) {
@@ -18,7 +18,7 @@ class XiangqiAI {
             const piece=game.board[r][c]; if (!piece) continue;
             const red=game.pieceColors[r][c]==='red';
             let value=XiangqiAI.values[piece]+XiangqiAI.tables[piece][red?r:9-r][c];
-            if ('兵卒'.includes(piece) && (red?r<=4:r>=5)) value+=100;
+            if ('\u5175\u5352'.includes(piece) && (red?r<=4:r>=5)) value+=100;
             score += red?value:-value;
         }
         return score;

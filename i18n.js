@@ -2,171 +2,171 @@
 class XiangqiI18n {
     static messages = {
     "title": {
-        "zh": "中国象棋",
+        "zh": "\u4e2d\u56fd\u8c61\u68cb",
         "en": "Xiangqi · Chinese Chess"
     },
     "language": {
-        "zh": "语言 / Language",
-        "en": "Language / 语言"
+        "zh": "\u8bed\u8a00",
+        "en": "Language"
     },
     "mode": {
-        "zh": "模式",
+        "zh": "\u6a21\u5f0f",
         "en": "Game mode"
     },
     "aiMode": {
-        "zh": "人机（你执红 · AI 执黑）",
+        "zh": "\u4eba\u673a（\u4f60\u6267\u7ea2 · AI \u6267\u9ed1）",
         "en": "Play AI (you: Red · AI: Black)"
     },
     "pvpMode": {
-        "zh": "双人对弈",
+        "zh": "\u53cc\u4eba\u5bf9\u5f08",
         "en": "Two players"
     },
     "difficulty": {
-        "zh": "难度",
+        "zh": "\u96be\u5ea6",
         "en": "Difficulty"
     },
     "easy": {
-        "zh": "简单",
+        "zh": "\u7b80\u5355",
         "en": "Easy"
     },
     "medium": {
-        "zh": "中等",
+        "zh": "\u4e2d\u7b49",
         "en": "Medium"
     },
     "hard": {
-        "zh": "困难",
+        "zh": "\u56f0\u96be",
         "en": "Hard"
     },
     "newGame": {
-        "zh": "新游戏",
+        "zh": "\u65b0\u6e38\u620f",
         "en": "New game"
     },
     "undo": {
-        "zh": "悔棋",
+        "zh": "\u6094\u68cb",
         "en": "Undo"
     },
     "rules": {
-        "zh": "玩法说明",
+        "zh": "\u73a9\u6cd5\u8bf4\u660e",
         "en": "How to play"
     },
     "closeRules": {
-        "zh": "关闭玩法说明",
+        "zh": "\u5173\u95ed\u73a9\u6cd5\u8bf4\u660e",
         "en": "Close instructions"
     },
     "boardLabel": {
-        "zh": "中国象棋棋盘",
+        "zh": "\u4e2d\u56fd\u8c61\u68cb\u68cb\u76d8",
         "en": "Xiangqi board"
     },
     "redTurn": {
-        "zh": "红方走棋",
+        "zh": "\u7ea2\u65b9\u8d70\u68cb",
         "en": "Red to move"
     },
     "blackTurn": {
-        "zh": "黑方走棋",
+        "zh": "\u9ed1\u65b9\u8d70\u68cb",
         "en": "Black to move"
     },
     "redCheck": {
-        "zh": "红方被将军",
+        "zh": "\u7ea2\u65b9\u88ab\u5c06\u519b",
         "en": "Red is in check"
     },
     "blackCheck": {
-        "zh": "黑方被将军",
+        "zh": "\u9ed1\u65b9\u88ab\u5c06\u519b",
         "en": "Black is in check"
     },
     "redWin": {
-        "zh": "红方获胜！",
+        "zh": "\u7ea2\u65b9\u83b7\u80dc！",
         "en": "Red wins!"
     },
     "blackWin": {
-        "zh": "黑方获胜！",
+        "zh": "\u9ed1\u65b9\u83b7\u80dc！",
         "en": "Black wins!"
     },
     "redBanner": {
-        "zh": "红方胜",
+        "zh": "\u7ea2\u65b9\u80dc",
         "en": "Red wins"
     },
     "blackBanner": {
-        "zh": "黑方胜",
+        "zh": "\u9ed1\u65b9\u80dc",
         "en": "Black wins"
     },
     "checkmate": {
-        "zh": "将死",
+        "zh": "\u5c06\u6b7b",
         "en": "Checkmate"
     },
     "stalemate": {
-        "zh": "困毙",
+        "zh": "\u56f0\u6bd9",
         "en": "No legal moves"
     },
     "captured": {
-        "zh": "将帅被吃",
+        "zh": "\u5c06\u5e05\u88ab\u5403",
         "en": "General captured"
     },
     "thinking": {
-        "zh": "AI 思考中…",
+        "zh": "AI \u601d\u8003\u4e2d…",
         "en": "AI is thinking…"
     },
     "thinkingDepth": {
-        "zh": "AI 思考中 · 深度 {depth}",
+        "zh": "AI \u601d\u8003\u4e2d · \u6df1\u5ea6 {depth}",
         "en": "AI is thinking · Depth {depth}"
     },
     "aiError": {
-        "zh": "AI 搜索失败，请重开或切换模式",
+        "zh": "AI \u641c\u7d22\u5931\u8d25，\u8bf7\u91cd\u5f00\u6216\u5207\u6362\u6a21\u5f0f",
         "en": "AI search failed. Start a new game or switch modes."
     },
     "intro": {
-        "zh": "红方先走，双方轮流走一着。点击己方棋子，再点击提示位置即可移动或吃子。",
+        "zh": "\u7ea2\u65b9\u5148\u8d70，\u53cc\u65b9\u8f6e\u6d41\u8d70\u4e00\u7740。\u70b9\u51fb\u5df1\u65b9\u68cb\u5b50，\u518d\u70b9\u51fb\u63d0\u793a\u4f4d\u7f6e\u5373\u53ef\u79fb\u52a8\u6216\u5403\u5b50。",
         "en": "Red moves first, then players alternate turns. Select one of your pieces and click a highlighted point to move or capture."
     },
     "pieceHeading": {
-        "zh": "棋子怎么走",
+        "zh": "\u68cb\u5b50\u600e\u4e48\u8d70",
         "en": "How the pieces move"
     },
     "rook": {
-        "zh": "车：横着或竖着走，步数不限，不能越过棋子。",
-        "en": "Chariot / Rook (車): Moves any distance horizontally or vertically, without jumping over pieces."
+        "zh": "\u8f66：\u6a2a\u7740\u6216\u7ad6\u7740\u8d70，\u6b65\u6570\u4e0d\u9650，\u4e0d\u80fd\u8d8a\u8fc7\u68cb\u5b50。",
+        "en": "Chariot / Rook (\u8eca): Moves any distance horizontally or vertically, without jumping over pieces."
     },
     "horse": {
-        "zh": "马：走“日”字；前进方向紧邻的格点有子挡住时，不能走（蹩马腿）。",
-        "en": "Horse (馬): Moves one point horizontally or vertically, then one point diagonally outward. It is blocked if the first point is occupied."
+        "zh": "\u9a6c：\u8d70“\u65e5”\u5b57；\u524d\u8fdb\u65b9\u5411\u7d27\u90bb\u7684\u683c\u70b9\u6709\u5b50\u6321\u4f4f\u65f6，\u4e0d\u80fd\u8d70（\u8e69\u9a6c\u817f）。",
+        "en": "Horse (\u99ac): Moves one point horizontally or vertically, then one point diagonally outward. It is blocked if the first point is occupied."
     },
     "elephant": {
-        "zh": "相 / 象：走“田”字，不能过河；中间有棋子时不能走（塞象眼）。",
-        "en": "Elephant (相 / 象): Moves exactly two points diagonally. It cannot cross the river or jump over a piece at the midpoint."
+        "zh": "\u76f8 / \u8c61：\u8d70“\u7530”\u5b57，\u4e0d\u80fd\u8fc7\u6cb3；\u4e2d\u95f4\u6709\u68cb\u5b50\u65f6\u4e0d\u80fd\u8d70（\u585e\u8c61\u773c）。",
+        "en": "Elephant (\u76f8 / \u8c61): Moves exactly two points diagonally. It cannot cross the river or jump over a piece at the midpoint."
     },
     "advisor": {
-        "zh": "仕 / 士：在九宫内斜走一步。",
-        "en": "Advisor (仕 / 士): Moves one point diagonally and must stay inside the palace (the marked 3 × 3 area)."
+        "zh": "\u4ed5 / \u58eb：\u5728\u4e5d\u5bab\u5185\u659c\u8d70\u4e00\u6b65。",
+        "en": "Advisor (\u4ed5 / \u58eb): Moves one point diagonally and must stay inside the palace (the marked 3 × 3 area)."
     },
     "general": {
-        "zh": "帅 / 将：在九宫内横走或竖走一步；双方将帅不能在同一列无子阻隔地面对面。",
-        "en": "General (帥 / 將): Moves one point horizontally or vertically inside the palace. The two generals cannot face each other on the same file with no piece between them."
+        "zh": "\u5e05 / \u5c06：\u5728\u4e5d\u5bab\u5185\u6a2a\u8d70\u6216\u7ad6\u8d70\u4e00\u6b65；\u53cc\u65b9\u5c06\u5e05\u4e0d\u80fd\u5728\u540c\u4e00\u5217\u65e0\u5b50\u963b\u9694\u5730\u9762\u5bf9\u9762。",
+        "en": "General (\u5e25 / \u5c07): Moves one point horizontally or vertically inside the palace. The two generals cannot face each other on the same file with no piece between them."
     },
     "cannon": {
-        "zh": "炮：移动时与车相同；吃子时必须隔着恰好一枚棋子。",
-        "en": "Cannon (炮): Moves like a rook without capturing. To capture, it must jump over exactly one intervening piece."
+        "zh": "\u70ae：\u79fb\u52a8\u65f6\u4e0e\u8f66\u76f8\u540c；\u5403\u5b50\u65f6\u5fc5\u987b\u9694\u7740\u6070\u597d\u4e00\u679a\u68cb\u5b50。",
+        "en": "Cannon (\u70ae): Moves like a rook without capturing. To capture, it must jump over exactly one intervening piece."
     },
     "soldier": {
-        "zh": "兵 / 卒：过河前只能向前一步，过河后也能横走一步，始终不能后退。",
-        "en": "Soldier (兵 / 卒): Moves one point forward. After crossing the river, it may also move one point sideways. It never moves backward."
+        "zh": "\u5175 / \u5352：\u8fc7\u6cb3\u524d\u53ea\u80fd\u5411\u524d\u4e00\u6b65，\u8fc7\u6cb3\u540e\u4e5f\u80fd\u6a2a\u8d70\u4e00\u6b65，\u59cb\u7ec8\u4e0d\u80fd\u540e\u9000。",
+        "en": "Soldier (\u5175 / \u5352): Moves one point forward. After crossing the river, it may also move one point sideways. It never moves backward."
     },
     "winningHeading": {
-        "zh": "怎样获胜",
+        "zh": "\u600e\u6837\u83b7\u80dc",
         "en": "How to win"
     },
     "winning": {
-        "zh": "将帅受到攻击称为“将军”，必须应对；不能走出让己方将帅被攻击的一着。被将军且无合法走法为“将死”，没有任何合法走法为“困毙”，两种情况都判负。",
+        "zh": "\u5c06\u5e05\u53d7\u5230\u653b\u51fb\u79f0\u4e3a“\u5c06\u519b”，\u5fc5\u987b\u5e94\u5bf9；\u4e0d\u80fd\u8d70\u51fa\u8ba9\u5df1\u65b9\u5c06\u5e05\u88ab\u653b\u51fb\u7684\u4e00\u7740。\u88ab\u5c06\u519b\u4e14\u65e0\u5408\u6cd5\u8d70\u6cd5\u4e3a“\u5c06\u6b7b”，\u6ca1\u6709\u4efb\u4f55\u5408\u6cd5\u8d70\u6cd5\u4e3a“\u56f0\u6bd9”，\u4e24\u79cd\u60c5\u51b5\u90fd\u5224\u8d1f。",
         "en": "An attacked general is in check and must be protected. You cannot make a move that leaves your general in check. A player loses if they have no legal moves, whether in check (checkmate) or not (stalemate)."
     },
     "controlsHeading": {
-        "zh": "模式与操作",
+        "zh": "\u6a21\u5f0f\u4e0e\u64cd\u4f5c",
         "en": "Modes and controls"
     },
     "controlsText": {
-        "zh": "双人模式双方轮流操作；人机模式你执红、AI 执黑，可选择难度。双人悔棋撤回一着，人机悔棋回到你可重走的回合。“新游戏”重新开局。",
+        "zh": "\u53cc\u4eba\u6a21\u5f0f\u53cc\u65b9\u8f6e\u6d41\u64cd\u4f5c；\u4eba\u673a\u6a21\u5f0f\u4f60\u6267\u7ea2、AI \u6267\u9ed1，\u53ef\u9009\u62e9\u96be\u5ea6。\u53cc\u4eba\u6094\u68cb\u64a4\u56de\u4e00\u7740，\u4eba\u673a\u6094\u68cb\u56de\u5230\u4f60\u53ef\u91cd\u8d70\u7684\u56de\u5408。“\u65b0\u6e38\u620f”\u91cd\u65b0\u5f00\u5c40。",
         "en": "In Two players mode, both sides share this board. Against the AI, you play Red and the AI plays Black; choose a difficulty to suit you. Undo takes back one move in Two players mode, or returns to your turn against the AI. New game resets the board."
     },
     "keys": {
-        "zh": "键盘：方向键移动光标，回车或空格选子与落子。按 Esc 或右上角 × 关闭说明。",
+        "zh": "\u952e\u76d8：\u65b9\u5411\u952e\u79fb\u52a8\u5149\u6807，\u56de\u8f66\u6216\u7a7a\u683c\u9009\u5b50\u4e0e\u843d\u5b50。\u6309 Esc \u6216\u53f3\u4e0a\u89d2 × \u5173\u95ed\u8bf4\u660e。",
         "en": "Keyboard: Use arrow keys to move the cursor, and Enter or Space to select and move. Press Esc or the × button to close these instructions."
     }
 };

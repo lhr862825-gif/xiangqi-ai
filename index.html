@@ -1,75 +1,73 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中国象棋</title>
+    <title>Xiangqi · Chinese Chess</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 页面主容器：左侧信息、右侧棋盘布局 -->
+    
     <div class="page-wrapper">
-        <!-- 左侧信息栏：标题与当前状态 -->
+        
         <div class="left-column">
             <div class="game-container">
-                <h1 data-i18n="title">中国象棋</h1>
+                <h1 data-i18n="title">Xiangqi · Chinese Chess</h1>
                 <div class="game-info">
-                    <div id="current-turn">红方走棋</div>
+                    <div id="current-turn">Red to move</div>
                     <div id="game-status"></div>
                 </div>
             </div>
 
             <div class="settings">
-                <label for="language" data-i18n="language">语言 / Language</label>
-                <select id="language"><option value="zh">中文</option><option value="en">English</option></select>
-                <label for="game-mode" data-i18n="mode">模式</label>
-                <select id="game-mode"><option value="ai-red" selected data-i18n="aiMode">人机（你执红 · AI 执黑）</option><option value="pvp" data-i18n="pvpMode">双人对弈</option></select>
-                <label for="difficulty" data-i18n="difficulty">难度</label>
-                <select id="difficulty"><option value="easy" data-i18n="easy">简单</option><option value="medium" selected data-i18n="medium">中等</option><option value="hard" data-i18n="hard">困难</option></select>
+                <label for="language" data-i18n="language">Language</label>
+                <select id="language"><option value="zh">Chinese</option><option value="en">English</option></select>
+                <label for="game-mode" data-i18n="mode">Game mode</label>
+                <select id="game-mode"><option value="ai-red" selected data-i18n="aiMode">Play AI (you: Red · AI: Black)</option><option value="pvp" data-i18n="pvpMode">Two players</option></select>
+                <label for="difficulty" data-i18n="difficulty">Difficulty</label>
+                <select id="difficulty"><option value="easy" data-i18n="easy">Easy</option><option value="medium" selected data-i18n="medium">Medium</option><option value="hard" data-i18n="hard">Hard</option></select>
                 <div id="ai-status" aria-live="polite"></div>
             </div>
-            <!-- 控制区：新游戏与悔棋按钮 -->
+            
             <div class="controls">
-                <button id="new-game" data-i18n="newGame">新游戏</button>
-                <button id="undo-move" data-i18n="undo">悔棋</button>
+                <button id="new-game" data-i18n="newGame">New game</button>
+                <button id="undo-move" data-i18n="undo">Undo</button>
             </div>
-            <button id="show-rules" class="rules-entry" aria-haspopup="dialog" data-i18n="rules">玩法说明</button>
+            <button id="show-rules" class="rules-entry" aria-haspopup="dialog" data-i18n="rules">How to play</button>
         </div>
 
-        <!-- 右侧棋盘区 -->
         <div class="main-layout">
-            <!-- 棋盘卡片容器：承载画布并提供阴影与圆角 -->
+            
             <div class="board-card">
-                <!-- 棋盘画布：主交互区域 -->
-                <canvas data-i18n-aria="boardLabel" aria-label="中国象棋棋盘" id="chess-board" width="600" height="680"></canvas>
+                
+                <canvas data-i18n-aria="boardLabel" aria-label="Xiangqi board" id="chess-board" width="600" height="680"></canvas>
             </div>
         </div>
     </div>
 
     <dialog id="rules-dialog" aria-labelledby="rules-title">
         <div class="rules-header">
-            <h2 id="rules-title" data-i18n="rules">玩法说明</h2>
-            <form method="dialog"><button class="rules-close" data-i18n-aria="closeRules" aria-label="关闭玩法说明">×</button></form>
+            <h2 id="rules-title" data-i18n="rules">How to play</h2>
+            <form method="dialog"><button class="rules-close" data-i18n-aria="closeRules" aria-label="Close instructions">×</button></form>
         </div>
-        <p data-i18n="intro">红方先走，双方轮流走一着。点击己方棋子，再点击提示位置即可移动或吃子。</p>
-        <h3 data-i18n="pieceHeading">棋子怎么走</h3>
+        <p data-i18n="intro">Red moves first, then players alternate turns. Select one of your pieces and click a highlighted point to move or capture.</p>
+        <h3 data-i18n="pieceHeading">How the pieces move</h3>
         <ul class="rules-list">
-            <li data-i18n="rook">车：横着或竖着走，步数不限，不能越过棋子。</li>
-            <li data-i18n="horse">马：走“日”字；前进方向紧邻的格点有子挡住时，不能走（蹩马腿）。</li>
-            <li data-i18n="elephant">相 / 象：走“田”字，不能过河；中间有棋子时不能走（塞象眼）。</li>
-            <li data-i18n="advisor">仕 / 士：在九宫内斜走一步。</li>
-            <li data-i18n="general">帅 / 将：在九宫内横走或竖走一步；双方将帅不能在同一列无子阻隔地面对面。</li>
-            <li data-i18n="cannon">炮：移动时与车相同；吃子时必须隔着恰好一枚棋子。</li>
-            <li data-i18n="soldier">兵 / 卒：过河前只能向前一步，过河后也能横走一步，始终不能后退。</li>
+            <li data-i18n="rook">Chariot / Rook (&#x8eca;): Moves any distance horizontally or vertically, without jumping over pieces.</li>
+            <li data-i18n="horse">Horse (&#x99ac;): Moves one point horizontally or vertically, then one point diagonally outward. It is blocked if the first point is occupied.</li>
+            <li data-i18n="elephant">Elephant (&#x76f8; / &#x8c61;): Moves exactly two points diagonally. It cannot cross the river or jump over a piece at the midpoint.</li>
+            <li data-i18n="advisor">Advisor (&#x4ed5; / &#x58eb;): Moves one point diagonally and must stay inside the palace (the marked 3 × 3 area).</li>
+            <li data-i18n="general">General (&#x5e25; / &#x5c07;): Moves one point horizontally or vertically inside the palace. The two generals cannot face each other on the same file with no piece between them.</li>
+            <li data-i18n="cannon">Cannon (&#x70ae;): Moves like a rook without capturing. To capture, it must jump over exactly one intervening piece.</li>
+            <li data-i18n="soldier">Soldier (&#x5175; / &#x5352;): Moves one point forward. After crossing the river, it may also move one point sideways. It never moves backward.</li>
         </ul>
-        <h3 data-i18n="winningHeading">怎样获胜</h3>
-        <p data-i18n="winning">将帅受到攻击称为“将军”，必须应对；不能走出让己方将帅被攻击的一着。被将军且无合法走法为“将死”，没有任何合法走法为“困毙”，两种情况都判负。</p>
-        <h3 data-i18n="controlsHeading">模式与操作</h3>
-        <p data-i18n="controlsText">双人模式双方轮流操作；人机模式你执红、AI 执黑，可选择难度。双人悔棋撤回一着，人机悔棋回到你可重走的回合。“新游戏”重新开局。</p>
-        <p class="rules-tip" data-i18n="keys">键盘：方向键移动光标，回车或空格选子与落子。按 Esc 或右上角 × 关闭说明。</p>
+        <h3 data-i18n="winningHeading">How to win</h3>
+        <p data-i18n="winning">An attacked general is in check and must be protected. You cannot make a move that leaves your general in check. A player loses if they have no legal moves, whether in check (checkmate) or not (stalemate).</p>
+        <h3 data-i18n="controlsHeading">Modes and controls</h3>
+        <p data-i18n="controlsText">In Two players mode, both sides share this board. Against the AI, you play Red and the AI plays Black; choose a difficulty to suit you. Undo takes back one move in Two players mode, or returns to your turn against the AI. New game resets the board.</p>
+        <p class="rules-tip" data-i18n="keys">Keyboard: Use arrow keys to move the cursor, and Enter or Space to select and move. Press Esc or the × button to close these instructions.</p>
     </dialog>
 
-    <!-- 业务逻辑脚本：棋盘绘制、规则判断、交互与状态 -->
     <script src="engine.js"></script>
     <script src="ai.js"></script>
     <script src="i18n.js"></script>

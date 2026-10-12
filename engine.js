@@ -1,19 +1,21 @@
+// Piece glyphs remain Unicode strings to preserve the original rule representation.
 class XiangqiGame {
     constructor() { this.initializeBoard(); }
+    // Reset the original starting position, side to move and undo stack.
     initializeBoard() {
         this.currentPlayer = 'red';
         this.moveHistory = [];
         this.board = [
-            ['車', '馬', '象', '士', '將', '士', '象', '馬', '車'],
+            ['\u8eca', '\u99ac', '\u8c61', '\u58eb', '\u5c07', '\u58eb', '\u8c61', '\u99ac', '\u8eca'],
             [null, null, null, null, null, null, null, null, null],
-            [null, '炮', null, null, null, null, null, '炮', null],
-            ['卒', null, '卒', null, '卒', null, '卒', null, '卒'],
+            [null, '\u70ae', null, null, null, null, null, '\u70ae', null],
+            ['\u5352', null, '\u5352', null, '\u5352', null, '\u5352', null, '\u5352'],
             [null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null],
-            ['兵', null, '兵', null, '兵', null, '兵', null, '兵'],
-            [null, '炮', null, null, null, null, null, '炮', null],
+            ['\u5175', null, '\u5175', null, '\u5175', null, '\u5175', null, '\u5175'],
+            [null, '\u70ae', null, null, null, null, null, '\u70ae', null],
             [null, null, null, null, null, null, null, null, null],
-            ['車', '馬', '相', '仕', '帥', '仕', '相', '馬', '車']
+            ['\u8eca', '\u99ac', '\u76f8', '\u4ed5', '\u5e25', '\u4ed5', '\u76f8', '\u99ac', '\u8eca']
         ];
 
         this.pieceColors = [];
@@ -25,11 +27,12 @@ class XiangqiGame {
         }
     }
 
+    // Locate the general for the requested side.
     findKing(color) {
         for (let row = 0; row < 10; row++) {
             for (let col = 0; col < 9; col++) {
                 const piece = this.board[row][col];
-                if ((piece === '將' || piece === '帥') && this.pieceColors[row][col] === color) {
+                if ((piece === '\u5c07' || piece === '\u5e25') && this.pieceColors[row][col] === color) {
                     return { row, col };
                 }
             }
@@ -37,6 +40,7 @@ class XiangqiGame {
         return null;
     }
 
+    // Check piece movement and blocking rules without testing self-check.
     isValidMove(fromRow, fromCol, toRow, toCol) {
         if (toRow < 0 || toRow > 9 || toCol < 0 || toCol > 8) return false;
 
@@ -50,8 +54,10 @@ class XiangqiGame {
         const colDiff = toCol - fromCol;
 
         switch (piece) {
-            case '兵':
-            case '卒':
+            case '\u5175': // Red soldier
+
+            case '\u5352': // Black soldier
+
                 if (pieceColor === 'red') {
                     if (fromRow > 4) {
                         return rowDiff === -1 && colDiff === 0;
@@ -66,7 +72,8 @@ class XiangqiGame {
                     }
                 }
 
-            case '炮':
+            case '\u70ae': // Cannon
+
                 if (rowDiff === 0 || colDiff === 0) {
                     let pieceCount = 0;
                     if (rowDiff === 0) {
@@ -86,7 +93,8 @@ class XiangqiGame {
                 }
                 return false;
 
-            case '車':
+            case '\u8eca': // Chariot (rook)
+
                 if (rowDiff === 0 || colDiff === 0) {
                     if (rowDiff === 0) {
                         const start = Math.min(fromCol, toCol) + 1;
@@ -105,7 +113,8 @@ class XiangqiGame {
                 }
                 return false;
 
-            case '馬':
+            case '\u99ac': // Horse
+
                 if ((Math.abs(rowDiff) === 2 && Math.abs(colDiff) === 1) ||
                     (Math.abs(rowDiff) === 1 && Math.abs(colDiff) === 2)) {
                     let blockRow, blockCol;
@@ -120,8 +129,10 @@ class XiangqiGame {
                 }
                 return false;
 
-            case '象':
-            case '相':
+            case '\u8c61': // Black elephant
+
+            case '\u76f8': // Red elephant
+
                 if (Math.abs(rowDiff) === 2 && Math.abs(colDiff) === 2) {
                     const blockRow = fromRow + rowDiff / 2;
                     const blockCol = fromCol + colDiff / 2;
@@ -135,8 +146,10 @@ class XiangqiGame {
                 }
                 return false;
 
-            case '士':
-            case '仕':
+            case '\u58eb': // Black advisor
+
+            case '\u4ed5': // Red advisor
+
                 if (Math.abs(rowDiff) === 1 && Math.abs(colDiff) === 1) {
                     if (pieceColor === 'red') {
                         return toRow >= 7 && toCol >= 3 && toCol <= 5;
@@ -146,8 +159,10 @@ class XiangqiGame {
                 }
                 return false;
 
-            case '將':
-            case '帥':
+            case '\u5c07': // Black general
+
+            case '\u5e25': // Red general
+
                 if (Math.abs(rowDiff) + Math.abs(colDiff) === 1) {
                     if (pieceColor === 'red') {
                         return toRow >= 7 && toCol >= 3 && toCol <= 5;
@@ -161,8 +176,9 @@ class XiangqiGame {
         }
     }
 
-    // 执行落子：记录最近一手、更新棋盘与行棋方、刷新界面与将军状态
 
+
+    // Check attacks, including the flying-generals rule.
     canPieceAttack(piece, color, fromRow, fromCol, toRow, toCol) {
         const targetPiece = this.board[toRow][toCol];
         const rowDiff = toRow - fromRow;
@@ -170,7 +186,8 @@ class XiangqiGame {
         if (targetPiece && this.pieceColors[toRow][toCol] === color) return false;
 
         switch (piece) {
-            case '車': {
+            case '\u8eca': // Chariot (rook)
+ {
                 if (rowDiff === 0 || colDiff === 0) {
                     if (rowDiff === 0) {
                         const start = Math.min(fromCol, toCol) + 1;
@@ -185,7 +202,8 @@ class XiangqiGame {
                 }
                 return false;
             }
-            case '炮':{
+            case '\u70ae': // Cannon
+{
                 if (rowDiff === 0 || colDiff === 0) {
                     let cnt = 0;
                     if (rowDiff === 0) {
@@ -201,7 +219,8 @@ class XiangqiGame {
                 }
                 return false;
             }
-            case '馬': {
+            case '\u99ac': // Horse
+ {
                 if ((Math.abs(rowDiff) === 2 && Math.abs(colDiff) === 1) ||
                     (Math.abs(rowDiff) === 1 && Math.abs(colDiff) === 2)) {
                     let blockRow, blockCol;
@@ -211,8 +230,10 @@ class XiangqiGame {
                 }
                 return false;
             }
-            case '象':
-            case '相': {
+            case '\u8c61': // Black elephant
+
+            case '\u76f8': // Red elephant
+ {
                 if (Math.abs(rowDiff) === 2 && Math.abs(colDiff) === 2) {
                     const midR = fromRow + rowDiff / 2;
                     const midC = fromCol + colDiff / 2;
@@ -221,22 +242,26 @@ class XiangqiGame {
                 }
                 return false;
             }
-            case '士':
-            case '仕': {
+            case '\u58eb': // Black advisor
+
+            case '\u4ed5': // Red advisor
+ {
                 if (Math.abs(rowDiff) === 1 && Math.abs(colDiff) === 1) {
                     if (color === 'red') return toRow >= 7 && toCol >= 3 && toCol <= 5;
                     else return toRow <= 2 && toCol >= 3 && toCol <= 5;
                 }
                 return false;
             }
-            case '將':
-            case '帥': {
+            case '\u5c07': // Black general
+
+            case '\u5e25': // Red general
+ {
                 if (Math.abs(rowDiff) + Math.abs(colDiff) === 1) {
                     if (color === 'red') return toRow >= 7 && toCol >= 3 && toCol <= 5;
                     else return toRow <= 2 && toCol >= 3 && toCol <= 5;
                 }
-                // 飞将：将帅同列且中间无子时，视为将帅互相攻击
-                if (colDiff === 0 && rowDiff !== 0 && targetPiece && (targetPiece === '將' || targetPiece === '帥')) {
+
+                if (colDiff === 0 && rowDiff !== 0 && targetPiece && (targetPiece === '\u5c07' || targetPiece === '\u5e25')) {
                     const start = Math.min(fromRow, toRow) + 1;
                     const end = Math.max(fromRow, toRow);
                     for (let r = start; r < end; r++) {
@@ -246,8 +271,10 @@ class XiangqiGame {
                 }
                 return false;
             }
-            case '兵':
-            case '卒': {
+            case '\u5175': // Red soldier
+
+            case '\u5352': // Black soldier
+ {
                 if (color === 'red') {
                     if (fromRow > 4) return rowDiff === -1 && colDiff === 0;
                     else return (rowDiff === -1 && colDiff === 0) || (rowDiff === 0 && Math.abs(colDiff) === 1);
@@ -260,6 +287,7 @@ class XiangqiGame {
         return false;
     }
 
+    // Detect whether an opposing piece attacks this general.
     isKingInCheck(color) {
         const king = this.findKing(color);
         if (!king) return false;
@@ -281,8 +309,9 @@ class XiangqiGame {
         return false;
     }
 
-    // 纯攻击判定：用于将军检测的到达能力判断（包含路径阻挡规则）
 
+
+    // Temporarily apply a move and restore the exact board after checking king safety.
     isMoveLeavingKingInCheck(fromRow, fromCol, toRow, toCol) {
         const piece = this.board[fromRow][fromCol];
         const color = this.pieceColors[fromRow][fromCol];
@@ -291,7 +320,7 @@ class XiangqiGame {
         const capturedPiece = this.board[toRow][toCol];
         const capturedColor = this.pieceColors[toRow][toCol];
 
-        // 临时落子
+
         this.board[toRow][toCol] = piece;
         this.pieceColors[toRow][toCol] = color;
         this.board[fromRow][fromCol] = null;
@@ -299,7 +328,7 @@ class XiangqiGame {
 
         const inCheck = this.isKingInCheck(color);
 
-        // 还原
+
         this.board[fromRow][fromCol] = piece;
         this.pieceColors[fromRow][fromCol] = color;
         this.board[toRow][toCol] = capturedPiece;
@@ -308,15 +337,17 @@ class XiangqiGame {
         return inCheck;
     }
 
-    // 某方是否至少存在一步合法走法
 
+
+    // Reject moves that leave the moving side in check.
     isLegalMove(fromRow, fromCol, toRow, toCol) {
         if (!this.isValidMove(fromRow, fromCol, toRow, toCol)) return false;
         return !this.isMoveLeavingKingInCheck(fromRow, fromCol, toRow, toCol);
     }
 
-    // 模拟落子后判断本方将帅是否处于被将军状态（临时改动棋盘后还原）
 
+
+    // List legal destinations without changing UI state.
     getValidMoves(fromRow, fromCol) {
         if (typeof fromRow === 'object') { fromCol = fromRow.col; fromRow = fromRow.row; }
         const moves = [];
@@ -331,8 +362,9 @@ class XiangqiGame {
         return moves;
     }
 
-    // 判断某步是否真正合法：走法合法且走后本方将帅不被将军（禁止送将/自将）
 
+
+    // Determine whether a side has any legal move.
     hasAnyLegalMove(color) {
         for (let r = 0; r < 10; r++) {
             for (let c = 0; c < 9; c++) {
@@ -344,8 +376,9 @@ class XiangqiGame {
         return false;
     }
 
-    // 点击交互：坐标换算、选子与落子、合法性校验与重绘
 
+
+    // Enumerate legal moves for AI search.
     getAllLegalMoves(color = this.currentPlayer) {
         const moves = [];
         for (let row = 0; row < 10; row++) for (let col = 0; col < 9; col++) {
@@ -354,6 +387,7 @@ class XiangqiGame {
         }
         return moves;
     }
+    // Validate and commit one move, recording all state required to undo it.
     applyMove(from, to) {
         const piece = this.board[from.row]?.[from.col];
         if (!piece || this.pieceColors[from.row][from.col] !== this.currentPlayer ||
@@ -367,6 +401,7 @@ class XiangqiGame {
         this.pieceColors[from.row][from.col] = null;
         this.currentPlayer = this.currentPlayer === 'red' ? 'black' : 'red';
     }
+    // Restore the latest move; repeated calls unwind the full history.
     undoMove() {
         const move = this.moveHistory.pop();
         if (!move) return false;
@@ -377,6 +412,7 @@ class XiangqiGame {
         this.currentPlayer = move.player;
         return true;
     }
+    // Return terminal status, reason and check state without touching the DOM.
     evaluateGameState() {
         if (!this.findKing('red')) return {status: 'black_wins', reason: 'captured', inCheck: false};
         if (!this.findKing('black')) return {status: 'red_wins', reason: 'captured', inCheck: false};
@@ -386,6 +422,7 @@ class XiangqiGame {
             reason: inCheck ? 'checkmate' : 'stalemate', inCheck};
         return {status: 'playing', reason: null, inCheck};
     }
+    // Copy mutable state so AI search cannot change the live game.
     clone() {
         const copy = new XiangqiGame();
         copy.board = this.board.map(row => row.slice());

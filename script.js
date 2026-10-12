@@ -14,7 +14,7 @@ class PieceSpriteCache {
         const ivoryDark = '#e0d5b8';
         const textColor = color === 'red' ? '#c62828' : '#2c3e50';
 
-        // 基础圆盘：径向渐变填充
+        // Render the base disc once with a radial gradient.
         this.ctx.save();
         const baseGrad = this.ctx.createRadialGradient(
             x - radius * 0.25, y - radius * 0.25, radius * 0.2,
@@ -30,7 +30,7 @@ class PieceSpriteCache {
         this.ctx.fillStyle = baseGrad;
         this.ctx.fill();
 
-        // 外圈描边：双层木纹色对比
+        // Draw contrasting wooden rim outlines.
         this.ctx.lineWidth = Math.max(2, Math.floor(radius * 0.12));
         this.ctx.strokeStyle = ringDark;
         this.ctx.stroke();
@@ -38,7 +38,7 @@ class PieceSpriteCache {
         this.ctx.strokeStyle = ringColor;
         this.ctx.stroke();
 
-        // 内嵌圆盘：形成倒角层次
+        // Add an inset disc to suggest a beveled edge.
         const insetGrad = this.ctx.createRadialGradient(
             x, y - innerRadius * 0.35, innerRadius * 0.1,
             x, y, innerRadius
@@ -51,7 +51,7 @@ class PieceSpriteCache {
         this.ctx.fillStyle = insetGrad;
         this.ctx.fill();
 
-        // 高光亮斑
+        // Add a subtle highlight.
         this.ctx.beginPath();
         this.ctx.arc(x - radius * 0.25, y - radius * 0.25, radius * 0.55, Math.PI * 0.1, Math.PI * 0.7);
         this.ctx.strokeStyle = 'rgba(255,255,255,0.35)';
@@ -60,19 +60,19 @@ class PieceSpriteCache {
 
         this.ctx.restore();
 
-        // 棋子文字：轻微浮雕（填充+描边）
+        // Render the piece glyph with fill and outline.
         this.ctx.save();
         this.ctx.fillStyle = textColor;
-        this.ctx.font = `bold ${Math.floor(radius * 0.85)}px KaiTi, 楷体, Microsoft YaHei`;
+        this.ctx.font = `bold ${Math.floor(radius * 0.85)}px KaiTi, Microsoft YaHei`;
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
-        // 细微阴影增强层次
+        // Use a subtle text shadow.
         this.ctx.shadowColor = 'rgba(0,0,0,0.15)';
         this.ctx.shadowBlur = 1;
         this.ctx.shadowOffsetX = 1;
         this.ctx.shadowOffsetY = 1;
         this.ctx.fillText(piece, x, y);
-        // 文字细描边增强清晰度
+        // Outline the glyph for readability.
         this.ctx.lineWidth = Math.max(1, Math.floor(radius * 0.08));
         this.ctx.strokeStyle = 'rgba(0,0,0,0.25)';
         this.ctx.strokeText(piece, x, y);
@@ -106,12 +106,12 @@ class ChineseChess {
         this.selectedPiece = null;
         this.gameStatus = 'playing';
         this.hoveredPiece = null;
-        // 动画配置
+        // Move animation settings.
         this.animationsEnabled = true;
-        this.animationDuration = 150; // 毫秒
+        this.animationDuration = 150; // milliseconds
         this.animatingFrom = null;
 
-        // 离屏静态棋盘层：背景、棋盘格、楚河汉界等只渲染一次，避免每帧重复绘制造成卡顿
+        // Cache the background, grid, river and palace on an offscreen canvas.
         this.bgImage = null;
         this.staticLayer = document.createElement('canvas');
         this.staticLayer.width = this.canvas.width;
@@ -152,12 +152,12 @@ class ChineseChess {
             this.redraw();
         };
         bg.src = 'images/wood-texture-chessboard.jpg';
-        // 图片未加载完成前先用纯色兜底，保证棋盘立即显示
+        // Render a solid fallback while the background image loads.
         this.renderStaticLayer();
         this.redraw();
     }
 
-    // 一次性渲染静态棋盘层：背景图、棋盘底色、格线、宫、楚河汉界、兵炮位标记
+    // Render the static board layer.
 
     renderStaticLayer() {
         const ctx = this.staticLayerCtx;
@@ -202,7 +202,7 @@ class ChineseChess {
             }
         }
 
-        // 复用宫、楚河汉界、兵炮位标记的绘制逻辑，临时把目标上下文切到静态层
+        // Reuse board decorations with the static-layer drawing context.
         const prev = this.ctx;
         this.ctx = ctx;
         this.drawPositionMarks();
@@ -211,7 +211,7 @@ class ChineseChess {
         this.ctx = prev;
     }
 
-    // 把静态层贴到主画布，再叠加动态内容（棋子、可走位置、光标）
+    // Composite the static board, piece sprites, legal moves and keyboard cursor.
 
     drawBoardRest() {
         this.ctx.drawImage(this.staticLayer, 0, 0, this.logicalWidth, this.logicalHeight);
@@ -220,7 +220,7 @@ class ChineseChess {
         this.drawCursorHighlight();
     }
 
-    // 统一重绘入口：清屏 + 静态层 + 动态层
+    // Clear and redraw the board layers.
 
     redraw() {
         this.clearCanvas();
@@ -338,7 +338,7 @@ class ChineseChess {
                           8 * this.cellSize, this.cellSize);
 
         this.ctx.fillStyle = '#2c3e50';
-        this.ctx.font = this.i18n.language==='en'?'bold 22px Arial, sans-serif':'bold 28px KaiTi, 楷体, Microsoft YaHei';
+        this.ctx.font = this.i18n.language==='en'?'bold 22px Arial, sans-serif':'bold 28px KaiTi, Microsoft YaHei';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
 
@@ -348,13 +348,13 @@ class ChineseChess {
         this.ctx.shadowOffsetX = 1;
         this.ctx.shadowOffsetY = 1;
 
-        this.ctx.fillText(this.i18n.language==='en'?'Chu River':'楚河', this.boardOffset + 2 * this.cellSize, this.boardOffset + 4.5 * this.cellSize);
-        this.ctx.fillText(this.i18n.language==='en'?'Han Border':'汉界', this.boardOffset + 6 * this.cellSize, this.boardOffset + 4.5 * this.cellSize);
+        this.ctx.fillText(this.i18n.language==='en'?'Chu River':'\u695a\u6cb3', this.boardOffset + 2 * this.cellSize, this.boardOffset + 4.5 * this.cellSize);
+        this.ctx.fillText(this.i18n.language==='en'?'Han Border':'\u6c49\u754c', this.boardOffset + 6 * this.cellSize, this.boardOffset + 4.5 * this.cellSize);
 
         this.ctx.restore();
     }
 
-    // 绘制全盘棋子：遍历棋盘并按当前状态调用 drawPiece
+    // Draw every occupied point, excluding the animated source piece.
 
     drawPieces() {
         for (let row = 0; row < 10; row++) {
@@ -367,7 +367,7 @@ class ChineseChess {
         }
     }
 
-    // 绘制单个棋子：位置计算、圆盘渐变、双层描边、文字与选中/悬停高亮
+    // Draw a cached piece sprite and the active selection ring.
 
     drawPiece(row,col,piece,color,opts={}) {
         const x=opts.x ?? this.boardOffset+col*this.cellSize;
@@ -389,7 +389,7 @@ class ChineseChess {
         const { row: fromRow, col: fromCol } = this.selectedPiece;
         const moves = this.game.getValidMoves(fromRow, fromCol);
 
-        // 以更柔和的中性色高亮：空位为淡圆点、可吃为细环
+        // Mark empty destinations with dots and captures with rings.
         moves.forEach(({ row: toRow, col: toCol }) => {
             const x = this.boardOffset + toCol * this.cellSize;
             const y = this.boardOffset + toRow * this.cellSize;
@@ -411,7 +411,7 @@ class ChineseChess {
         });
     }
 
-    // 键盘光标高亮：以虚线环标示当前键盘位置
+    // Draw a dashed ring around the keyboard cursor.
 
     drawCursorHighlight() {
         if (!this.keyboardCursor) return;
@@ -430,7 +430,7 @@ class ChineseChess {
         this.ctx.restore();
     }
 
-    // 键盘操作：方向键移动光标、回车/空格选子或落子；H 切换高对比；+- 调整字体
+    // Handle arrow navigation, Enter/Space moves, contrast and font-size shortcuts.
 
     handleKeydown(e) {
         if (document.getElementById('rules-dialog').open || !this.canHumanInput() || /SELECT|BUTTON|INPUT/.test(e.target?.tagName || '')) return;
@@ -513,7 +513,7 @@ class ChineseChess {
         }
     }
 
-    // 计算某一棋子的所有合法到达点
+
 
     handleClick(e) {
         if (!this.canHumanInput()) return;
@@ -560,7 +560,7 @@ class ChineseChess {
         this.ctx.clearRect(0, 0, this.logicalWidth, this.logicalHeight);
     }
 
-    // 走法合法性校验：按兵种规则判断
+
 
     async makeMove(fromRow,fromCol,toRow,toCol) {
         if(this.busy) return;
@@ -603,7 +603,7 @@ class ChineseChess {
                 this.drawPiece(fromRow, fromCol, piece, color, { x, y, skipGlow: true });
                 this.animationFrame=requestAnimationFrame(step);
             } else {
-                // 结束帧：先落地更新棋盘再重绘，避免棋子“闪回”起点
+                // Complete the animation before committing the move.
                 this.animatingFrom = null;
                 onComplete();
             }
@@ -618,7 +618,7 @@ class ChineseChess {
             this.game.currentPlayer === 'red' ? '#e74c3c' : '#2c3e50';
     }
 
-    // 局面检测：判断胜负与“被将军”状态，更新状态文本与颜色
+    // Display the structured engine state and start the victory banner.
 
     checkGameStatus() {
         const state=this.game.evaluateGameState();this.gameStatus=state.status;
@@ -647,18 +647,18 @@ class ChineseChess {
         const animate = (now) => {
             if(generation!==this.generation) return;
             const t = Math.min(1, (now - start) / duration);
-            const alpha = t; // 简单淡入
-            // 在已有棋盘上叠加文本
+            const alpha = t; // Linear fade-in.
+            // Overlay the victory banner on the board.
             this.ctx.save();
             this.ctx.globalAlpha = alpha;
             this.ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
             const cx = this.logicalWidth / 2;
-            const cy = this.boardOffset - 28; // 标志位于棋盘上方
+            const cy = this.boardOffset - 28; // Place the banner above the board.
             this.ctx.fillRect(cx - 120, cy - 28, 240, 48);
             this.ctx.strokeStyle = 'rgba(0,0,0,0.2)';
             this.ctx.strokeRect(cx - 120, cy - 28, 240, 48);
             this.ctx.fillStyle = side === 'red' ? '#e74c3c' : '#2c3e50';
-            this.ctx.font = 'bold 28px KaiTi, 楷体, Microsoft YaHei';
+            this.ctx.font = 'bold 28px KaiTi, Microsoft YaHei';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(this.i18n.t(side==='red'?'redBanner':'blackBanner'), cx, cy);
@@ -674,7 +674,7 @@ class ChineseChess {
     }
 
 
-    // 被将军检测：对方任一棋子能攻击到本方将帅位置（含飞将：将帅照面视为互相攻击）
+
 
     newGame() {
         this.cancelPending();

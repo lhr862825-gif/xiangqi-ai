@@ -1,13 +1,5 @@
-/*
- * 全局 CSS 变量与主题：
- * - wood-brown：木纹主题主色（棋盘边框）
- * - text-primary / text-secondary：主/次文本颜色
- * - accent-red / accent-green：强调色（提示与按钮）
- * - card-bg / chip-bg：卡片与状态标签背景（半透明）
- * - border：统一的半透明描边
- * - shadow-strong / shadow-soft：强/弱阴影
- * - radius：统一圆角半径
- */
+/* Theme tokens, board layout, controls, localization and the rules dialog. */
+
 :root {
     --wood-brown: #8b4513;
     --text-primary: #2c3e50;
@@ -25,7 +17,7 @@
 }
 
 body {
-    font-family: 'Microsoft YaHei', 'KaiTi', '楷体', Arial, sans-serif;
+    font-family: 'Microsoft YaHei', 'KaiTi', Arial, sans-serif;
     margin: 0;
     padding: 24px;
     background-image: url("images/wood-texture.jpg");
@@ -39,7 +31,7 @@ body {
     align-items: center;
 }
 
-/* 页面主容器：居中排版与毛玻璃卡片底 */
+
 .page-wrapper {
     display: flex;
     align-items: flex-start;
@@ -57,8 +49,8 @@ body {
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-/* 2. 左列容器：控制 game-container（上）和 controls（下）的“上-下”布局 */
-/* 左列：垂直栈布局，放标题与状态、控制区 */
+
+
 .left-column {
     display: flex;
     flex-direction: column;
@@ -66,8 +58,8 @@ body {
     width: 320px;
 }
 
-/* 3. 左列上部：game-container */
-/* 左列上部卡片：标题与状态信息 */
+
+
 .game-container {
     width: 100%;
     text-align: center;
@@ -79,7 +71,7 @@ body {
     box-sizing: border-box;
 }
 
-/* 控制区：按钮栈与对齐 */
+
 .controls {
     display: flex;
     gap: 14px; 
@@ -87,7 +79,7 @@ body {
     padding: 0 10px;
 }
 
-/* 右侧主区域：棋盘外层容器 */
+
 .main-layout {
     width: 600px;
     display: flex;
@@ -95,7 +87,7 @@ body {
     align-items: flex-start;
 }
 
-/* 棋盘卡片容器：白玻璃、圆角与阴影 */
+
 .board-card {
     width: 100%;
     background: rgba(255,255,255,0.55);
@@ -106,8 +98,8 @@ body {
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-/* 6. 棋盘样式（适配右列） */
-/* 棋盘画布：木纹背景与边框 */
+
+
 #chess-board {
     border: 3px solid var(--wood-brown);
     border-radius: 16px;
@@ -120,7 +112,7 @@ body {
     transition: box-shadow 0.25s ease;
 }
 
-/* 标题样式：加粗、阴影与字距 */
+
 h1 {
     color: var(--text-primary);
     margin-bottom: 22px;
@@ -130,7 +122,7 @@ h1 {
     letter-spacing: 0.5px;
 }
 
-/* 状态信息条：当前行棋方与将军提示 */
+
 .game-info {
     margin-bottom: 22px;
     display: flex;
@@ -144,7 +136,7 @@ h1 {
     gap: 12px;
 }
 
-/* 当前行棋方标签：红/黑配色自动切换 */
+
 #current-turn {
     font-size: 1.1em;
     font-weight: 700;
@@ -164,7 +156,7 @@ h1 {
     opacity: 0.8;
 }
 
-/* 局面状态标签：被将军提示 */
+
 #game-status {
     font-size: 1.05em;
     color: var(--accent-green);
@@ -201,7 +193,7 @@ h1 {
     max-width: 600px;
 }
 
-/* 通用按钮样式：圆角、阴影与过渡 */
+
 button {
     padding: 12px 22px;
     font-size: 1.05em;
@@ -250,7 +242,7 @@ button:disabled {
     }
 }
 
-/* 新游戏按钮：柔和木色渐变，更贴合整体配色 */
+
 #new-game {
     background: linear-gradient(180deg, #f9f5ee, #efe2cf);
     color: var(--wood-brown);
@@ -266,7 +258,7 @@ button:disabled {
     box-shadow: 0 8px 20px rgba(139, 69, 19, 0.22);
 }
 
-/* 悔棋按钮：浅玫瑰中性色调，更协调不过分抢眼 */
+
 #undo-move {
     background: linear-gradient(180deg, #f7eeef, #efd9dc);
     color: var(--text-primary);
